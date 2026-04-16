@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyril Blyseth | autonomouscereal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=VT323&display=swap');
+        
+        :root {
+            --neon-cyan: #00f0ff;
+            --neon-pink: #ff00aa;
+            --neon-purple: #9d00ff;
+        }
+        
+        body {
+            background: #0a0a1f;
+            color: #e0f8ff;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Neural net background grid */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px);
+            background-size: 90px 90px;
+            animation: gridMove 30s linear infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 90px 90px; }
+        }
+        
+        .neon-text {
+            text-shadow: 
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-pink),
+                0 0 60px var(--neon-purple);
+        }
+        
+        .name-letter {
+            display: inline-block;
+            animation: nameSpark 1.8s infinite alternate ease-in-out;
+        }
+        
+        @keyframes nameSpark {
+            0%   { text-shadow: 0 0 10px #00f0ff; }
+            100% { text-shadow: 0 0 35px #ff00aa, 0 0 55px #9d00ff; }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #00f0ff, #ff00aa);
+            transition: width 0.4s ease;
+        }
+        
+        .nav-link:hover:after { width: 100%; }
+        .nav-link:hover { color: #ff00aa; transform: translateY(-2px); }
+        
+        /* Big project-style tiles */
+        .big-tile {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 3px solid rgba(0, 240, 255, 0.7);
+            border-radius: 32px;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(10, 10, 30, 0.95));
+            box-shadow: 0 15px 40px -10px rgba(0, 240, 255, 0.5);
+            backdrop-filter: blur(16px);
+        }
+        
+        .big-tile:hover {
+            transform: scale(1.04) rotate(0.5deg);
+            border-color: #ff00aa;
+            box-shadow: 
+                0 0 45px #00f0ff,
+                0 0 80px #ff00aa,
+                30px 30px 50px -20px rgba(157, 0, 255, 0.6);
+        }
+        
+        .project-tile {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 3px solid rgba(0, 240, 255, 0.6);
+            border-radius: 28px;
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(10, 10, 30, 0.9));
+            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.4);
+            backdrop-filter: blur(12px);
+        }
+        
+        .project-tile:hover {
+            transform: scale(1.08) rotate(1deg);
+            border-color: #ff00aa;
+            box-shadow: 
+                0 0 40px #00f0ff,
+                0 0 70px #ff00aa,
+                25px 25px 40px -15px rgba(157, 0, 255, 0.5);
+        }
+        
+        .section-header {
+            font-family: 'VT323', monospace;
+            letter-spacing: 6px;
+        }
+        
+        #canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            opacity: 0.45;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative">
+    <!-- Neural net background grid -->
+    <div class="bg-grid"></div>
+    <canvas id="canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-cyan-500/30 bg-[#0a0a1f]/95 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-9 h-9 rounded-3xl bg-gradient-to-br from-cyan-400 via-pink-500 to-purple-500 flex items-center justify-center text-3xl font-bold neon-text">C</div>
+                <h1 class="text-4xl tracking-[3px] neon-text">autonomouscereal</h1>
+            </div>
+            
+            <div class="flex items-center gap-10 text-xl font-medium">
+                <a href="https://www.linkedin.com/in/cyril-blyseth-3b1a37158" target="_blank" class="nav-link">LinkedIn</a>
+                <a href="https://x.com/cyrilismyname" target="_blank" class="nav-link">X</a>
+                <a href="https://github.com/autonomouscereal" target="_blank" class="nav-link">GitHub</a>
+                <a href="https://www.youtube.com/@CyrilBlyseth" target="_blank" class="nav-link">YouTube</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="pt-32 pb-16 px-8 max-w-6xl mx-auto text-center">
+        <h2 id="hero-name" class="text-6xl md:text-7xl font-bold neon-text flex justify-center gap-3 flex-wrap">
+            <span class="name-letter">C</span><span class="name-letter">Y</span><span class="name-letter">R</span><span class="name-letter">I</span><span class="name-letter">L</span>
+            <span class="name-letter">&nbsp;</span>
+            <span class="name-letter">B</span><span class="name-letter">L</span><span class="name-letter">Y</span><span class="name-letter">S</span><span class="name-letter">Y</span><span class="name-letter">T</span><span class="name-letter">H</span>
+        </h2>
+        <p class="text-4xl text-cyan-300 mt-4">Senior AI Engineer</p>
+        <p class="max-w-xl mx-auto text-2xl text-gray-200 mt-6">
+            Building and testing production-scale AI systems that ship today and scale tomorrow
+        </p>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section class="max-w-7xl mx-auto px-8 pb-20">
+        <h3 class="section-header text-5xl neon-text text-center mb-12">Featured Projects</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <a href="https://github.com/autonomouscereal/Void-Local-LLM-Wrapper" target="_blank" 
+               class="project-tile p-10 flex flex-col h-full group">
+                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">Void</div>
+                <p class="flex-1 text-xl text-gray-300">My multimodal AI orchestrator harness with deterministic execution, traceability, and real-world media pipelines before claude code.</p>
+                <div class="mt-8 text-sm tracking-[2px] text-pink-400">MULTIMODAL • LOCAL • RELIABLE</div>
+            </a>
+            
+            <a href="https://github.com/autonomouscereal/omnicoder_0.1.0" target="_blank" 
+               class="project-tile p-10 flex flex-col h-full group">
+                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">OmniCoder 0.1</div>
+                <p class="flex-1 text-xl text-gray-300">Multimodal Mixture-of-Experts architecture designed for efficient, high-performance inference across environments.</p>
+                <div class="mt-8 text-sm tracking-[2px] text-pink-400">ON-DEVICE • OMNIMODAL • FUTURE-PROOF</div>
+            </a>
+            
+            <a href="https://github.com/autonomouscereal/botmaker3000" target="_blank" 
+               class="project-tile p-10 flex flex-col h-full group">
+                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">Botmaker3000</div>
+                <p class="flex-1 text-xl text-gray-300">Lightweight, extensible framework for building real AI agents and bots for video games.</p>
+                <div class="mt-8 text-sm tracking-[2px] text-pink-400">AGENTS • PROTOTYPING • ADAPTABLE</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT (clean single-tile format at the bottom) -->
+    <section class="max-w-4xl mx-auto px-8 pb-20">
+        <div class="big-tile p-12 mx-auto">
+            <h3 class="section-header text-5xl neon-text mb-8 text-center">About</h3>
+            <p class="text-2xl leading-relaxed text-gray-200 text-center max-w-3xl mx-auto">
+                Over a decade shipping production AI and machine learning systems at scale — from designing complex architectures to leading teams that deliver reliable, high-impact AI in real-world environments.
+
+            </p>
+            <p class="text-2xl leading-relaxed text-gray-300 mt-8 text-center max-w-3xl mx-auto">
+                I focus on building and rigorously testing AI that solves hard problems today while staying adaptable for whatever comes next. Whether working with frontier cloud models, local inference, multimodal systems, or intelligent agents, my goal is simple: create AI that is powerful, trustworthy, and ready for deployment.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyan-500/30 py-10 text-center text-cyan-400/60 text-base">
+        © 2026 Cyril Blyseth • autonomouscereal<br>
+        Building real edge-native multimodal intelligence.
+    </footer>
+
+    <!-- Canvas: Neural Net + More Active Spaceships + Brighter Lasers -->
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        let neurons = [];
+        let ships = [];
+        let projectiles = [];
+        let mouse = { x: 0, y: 0, clicked: false };
+
+        function resize() {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            canvas.width = w;
+            canvas.height = h;
+        }
+
+        class Neuron {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h * 0.85 + 80;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 5 + 4;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 60 || this.y > h - 60) this.vy *= -1;
+            }
+        }
+
+        class Ship {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h * 0.7 + 60; // full vertical range
+                this.vx = (Math.random() - 0.5) * 4.5; // much faster horizontal
+                this.vy = (Math.random() - 0.5) * 2.8; // added vertical drift
+                this.angle = Math.random() * Math.PI * 2;
+                this.fireCooldown = Math.random() * 30;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.angle += 0.035; // more rotation for lively feel
+                
+                // Bounce off edges with more energy
+                if (this.x < -40 || this.x > w + 40) this.vx *= -1.1;
+                if (this.y < 40 || this.y > h - 40) this.vy *= -1.1;
+                
+                this.fireCooldown--;
+                if (this.fireCooldown <= 0 && Math.random() < 0.12) { // shoot much more often
+                    projectiles.push({
+                        x: this.x,
+                        y: this.y + 12,
+                        vx: (Math.random() - 0.5) * 9,
+                        vy: 8 + Math.random() * 6,
+                        life: 55,
+                        color: '#ff00aa'
+                    });
+                    this.fireCooldown = 12; // rapid fire
+                }
+            }
+        }
+
+        function createProjectile(x, y, targetX, targetY) {
+            const dx = targetX - x;
+            const dy = targetY - y;
+            const len = Math.hypot(dx, dy) || 1;
+            return {
+                x: x,
+                y: y,
+                vx: (dx / len) * 14,
+                vy: (dy / len) * 14,
+                life: 42,
+                color: '#ff00ff'
+            };
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+
+            // Neurons
+            while (neurons.length < 75) neurons.push(new Neuron());
+            for (let i = 0; i < neurons.length; i++) {
+                const n = neurons[i];
+                n.update();
+                ctx.shadowBlur = 22;
+                ctx.shadowColor = '#00f0ff';
+                ctx.fillStyle = '#00f0ff';
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3);
+            }
+
+            // Synapse connections
+            ctx.shadowBlur = 10;
+            for (let i = 0; i < neurons.length; i++) {
+                for (let j = i + 1; j < neurons.length; j++) {
+                    const dx = neurons[i].x - neurons[j].x;
+                    const dy = neurons[i].y - neurons[j].y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist < 210 && dist > 35) {
+                        const alpha = (210 - dist) / 210 * 0.6;
+                        ctx.strokeStyle = `rgba(157, 0, 255, ${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(neurons[i].x, neurons[i].y);
+                        ctx.lineTo(neurons[j].x, neurons[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Ships — now much more active
+            while (ships.length < 7) ships.push(new Ship()); // one extra ship
+            for (let i = 0; i < ships.length; i++) {
+                const s = ships[i];
+                s.update();
+
+                ctx.save();
+                ctx.translate(s.x, s.y);
+                ctx.rotate(s.angle);
+                ctx.shadowBlur = 22;
+                ctx.shadowColor = '#ff00aa';
+                ctx.fillStyle = '#00f0ff';
+                ctx.beginPath();
+                ctx.moveTo(22, 0);
+                ctx.lineTo(-14, -14);
+                ctx.lineTo(-9, 0);
+                ctx.lineTo(-14, 14);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Brighter, thicker lasers
+            for (let i = projectiles.length - 1; i >= 0; i--) {
+                const p = projectiles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+                if (p.life <= 0) {
+                    projectiles.splice(i, 1);
+                    continue;
+                }
+                ctx.shadowBlur = 38;           // much brighter glow
+                ctx.shadowColor = p.color;
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 4.5;           // thicker
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x - p.vx * 2, p.y - p.vy * 2);
+                ctx.stroke();
+                
+                // Extra bright core
+                ctx.shadowBlur = 12;
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = p.color;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x - p.vx * 1.2, p.y - p.vy * 1.2);
+                ctx.stroke();
+            }
+
+            // Click target + ships shoot toward it
+            if (mouse.clicked) {
+                ctx.shadowBlur = 45;
+                ctx.shadowColor = '#ff00aa';
+                ctx.fillStyle = 'rgba(255, 0, 170, 0.75)';
+                ctx.fillRect(mouse.x - 16, mouse.y - 16, 32, 32);
+                
+                ships.forEach(s => {
+                    if (Math.hypot(s.x - mouse.x, s.y - mouse.y) < 520) {
+                        projectiles.push(createProjectile(s.x, s.y + 10, mouse.x, mouse.y));
+                    }
+                });
+                mouse.clicked = false;
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        
+        canvas.addEventListener('click', () => {
+            mouse.clicked = true;
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+
+        // Tailwind
+        tailwind.config = { content: [] };
+    </script>
+</body>
+</html>
