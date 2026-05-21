@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CB">
+  <rect width="64" height="64" rx="12" fill="#080a0f"/>
+  <path d="M12 49h40" stroke="#9af593" stroke-width="4" stroke-linecap="round"/>
+  <path d="M14 14h36v36H14z" fill="none" stroke="#54d7ff" stroke-width="3"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">CB</text>
+</svg>
