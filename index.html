@@ -1,417 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyril Blyseth | autonomouscereal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=VT323&display=swap');
-        
-        :root {
-            --neon-cyan: #00f0ff;
-            --neon-pink: #ff00aa;
-            --neon-purple: #9d00ff;
-        }
-        
-        body {
-            background: #0a0a1f;
-            color: #e0f8ff;
-            font-family: 'Orbitron', sans-serif;
-            overflow-x: hidden;
-        }
-        
-        /* Neural net background grid */
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px);
-            background-size: 90px 90px;
-            animation: gridMove 30s linear infinite;
-            z-index: -1;
-            opacity: 0.5;
-        }
-        
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 90px 90px; }
-        }
-        
-        .neon-text {
-            text-shadow: 
-                0 0 10px var(--neon-cyan),
-                0 0 20px var(--neon-cyan),
-                0 0 40px var(--neon-pink),
-                0 0 60px var(--neon-purple);
-        }
-        
-        .name-letter {
-            display: inline-block;
-            animation: nameSpark 1.8s infinite alternate ease-in-out;
-        }
-        
-        @keyframes nameSpark {
-            0%   { text-shadow: 0 0 10px #00f0ff; }
-            100% { text-shadow: 0 0 35px #ff00aa, 0 0 55px #9d00ff; }
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(to right, #00f0ff, #ff00aa);
-            transition: width 0.4s ease;
-        }
-        
-        .nav-link:hover:after { width: 100%; }
-        .nav-link:hover { color: #ff00aa; transform: translateY(-2px); }
-        
-        /* Big project-style tiles */
-        .big-tile {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 3px solid rgba(0, 240, 255, 0.7);
-            border-radius: 32px;
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(10, 10, 30, 0.95));
-            box-shadow: 0 15px 40px -10px rgba(0, 240, 255, 0.5);
-            backdrop-filter: blur(16px);
-        }
-        
-        .big-tile:hover {
-            transform: scale(1.04) rotate(0.5deg);
-            border-color: #ff00aa;
-            box-shadow: 
-                0 0 45px #00f0ff,
-                0 0 80px #ff00aa,
-                30px 30px 50px -20px rgba(157, 0, 255, 0.6);
-        }
-        
-        .project-tile {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 3px solid rgba(0, 240, 255, 0.6);
-            border-radius: 28px;
-            background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(10, 10, 30, 0.9));
-            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.4);
-            backdrop-filter: blur(12px);
-        }
-        
-        .project-tile:hover {
-            transform: scale(1.08) rotate(1deg);
-            border-color: #ff00aa;
-            box-shadow: 
-                0 0 40px #00f0ff,
-                0 0 70px #ff00aa,
-                25px 25px 40px -15px rgba(157, 0, 255, 0.5);
-        }
-        
-        .section-header {
-            font-family: 'VT323', monospace;
-            letter-spacing: 6px;
-        }
-        
-        #canvas {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            opacity: 0.45;
-            pointer-events: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cyril Blyseth builds local-first AI systems, agentic operations platforms, omnimodal model experiments, and cybersecurity automation.">
+  <title>Cyril Blyseth | AI Systems Engineer</title>
+  <style>
+    :root {
+      --bg: #080a0f;
+      --panel: rgba(14, 18, 28, 0.88);
+      --panel-strong: rgba(18, 24, 36, 0.96);
+      --text: #f5f7fb;
+      --muted: #a9b3c7;
+      --line: rgba(255, 255, 255, 0.13);
+      --cyan: #54d7ff;
+      --amber: #ffcc66;
+      --green: #7dffa7;
+      --red: #ff7272;
+      --blue: #7ca7ff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 30% 0%, rgba(84, 215, 255, 0.12), transparent 34%),
+        linear-gradient(180deg, #080a0f 0%, #0b1018 42%, #080a0f 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.72;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.15));
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 10, 15, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 760;
+    }
+
+    .mark {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(84, 215, 255, 0.65);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(84, 215, 255, 0.22), rgba(255, 204, 102, 0.14));
+      box-shadow: 0 0 28px rgba(84, 215, 255, 0.22);
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .navlinks a,
+    .button {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.035);
+      transition: transform 160ms ease, border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .navlinks a:hover,
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(84, 215, 255, 0.7);
+      color: var(--text);
+      background: rgba(84, 215, 255, 0.1);
+    }
+
+    .hero {
+      min-height: calc(100vh - 74px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+      gap: 38px;
+      align-items: center;
+      padding: 72px 0 54px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 22px rgba(125, 255, 167, 0.8);
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      font-size: clamp(44px, 8vw, 92px);
+      line-height: 0.96;
+      letter-spacing: 0;
+      max-width: 850px;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      color: #d7deec;
+      font-size: clamp(19px, 2.4vw, 28px);
+      line-height: 1.35;
+      max-width: 780px;
+    }
+
+    .sublead {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 760px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .button.primary {
+      color: #061018;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--cyan), var(--amber));
+      font-weight: 760;
+    }
+
+    .button.primary:hover {
+      color: #061018;
+      border-color: transparent;
+      background: linear-gradient(135deg, #8de5ff, #ffd987);
+    }
+
+    .console {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .console-bar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(255,255,255,0.035);
+    }
+
+    .lights {
+      display: flex;
+      gap: 7px;
+    }
+
+    .lights span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .lights span:nth-child(1) { background: var(--red); }
+    .lights span:nth-child(2) { background: var(--amber); }
+    .lights span:nth-child(3) { background: var(--green); }
+
+    .console-body {
+      padding: 22px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 14px;
+      line-height: 1.72;
+      color: #d9e4f8;
+    }
+
+    .prompt { color: var(--green); }
+    .flag { color: var(--cyan); }
+    .value { color: var(--amber); }
+    .comment { color: #7f8ca8; }
+
+    section {
+      padding: 44px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 52px);
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      max-width: 460px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .proof,
+    .project,
+    .timeline-item,
+    .signal {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+    }
+
+    .proof {
+      min-height: 170px;
+      padding: 18px;
+    }
+
+    .metric {
+      font-size: 31px;
+      font-weight: 830;
+      color: var(--text);
+    }
+
+    .proof p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: 15px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .project {
+      padding: 22px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .project:hover {
+      transform: translateY(-3px);
+      border-color: rgba(84, 215, 255, 0.64);
+      background: var(--panel-strong);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      border: 1px solid rgba(84, 215, 255, 0.34);
+      border-radius: 8px;
+      padding: 6px 9px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 740;
+      text-transform: uppercase;
+    }
+
+    .project h3 {
+      margin: 18px 0 0;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    .project p {
+      color: var(--muted);
+      line-height: 1.58;
+      margin: 14px 0 0;
+    }
+
+    .project ul {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: #d9e4f8;
+      line-height: 1.35;
+      font-size: 14px;
+    }
+
+    .project li::before {
+      content: "/";
+      color: var(--amber);
+      margin-right: 8px;
+    }
+
+    .project .button {
+      margin-top: auto;
+      width: max-content;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .year {
+      color: var(--amber);
+      font-weight: 830;
+    }
+
+    .timeline-item h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .timeline-item p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+    }
+
+    .signal {
+      padding: 24px;
+    }
+
+    .signal h3 {
+      margin: 0 0 14px;
+      font-size: 24px;
+    }
+
+    .signal p,
+    .signal li {
+      color: var(--muted);
+      line-height: 1.58;
+    }
+
+    .signal ul {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    footer {
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 940px) {
+      .hero,
+      .signals {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-grid,
+      .projects {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .shell {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .navlinks {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 48px;
+      }
+
+      .proof-grid,
+      .projects,
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
-<body class="min-h-screen relative">
-    <!-- Neural net background grid -->
-    <div class="bg-grid"></div>
-    <canvas id="canvas"></canvas>
+<body>
+  <canvas id="field"></canvas>
+  <div class="grid" aria-hidden="true"></div>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-cyan-500/30 bg-[#0a0a1f]/95 backdrop-blur-lg">
-        <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-9 h-9 rounded-3xl bg-gradient-to-br from-cyan-400 via-pink-500 to-purple-500 flex items-center justify-center text-3xl font-bold neon-text">C</div>
-                <h1 class="text-4xl tracking-[3px] neon-text">autonomouscereal</h1>
-            </div>
-            
-            <div class="flex items-center gap-10 text-xl font-medium">
-                <a href="https://www.linkedin.com/in/cyril-blyseth-3b1a37158" target="_blank" class="nav-link">LinkedIn</a>
-                <a href="https://x.com/cyrilismyname" target="_blank" class="nav-link">X</a>
-                <a href="https://github.com/autonomouscereal" target="_blank" class="nav-link">GitHub</a>
-                <a href="https://www.youtube.com/@CyrilBlyseth" target="_blank" class="nav-link">YouTube</a>
-            </div>
-        </div>
-    </nav>
+  <header>
+    <div class="shell nav">
+      <a class="brand" href="#top" aria-label="Cyril Blyseth home">
+        <span class="mark">CB</span>
+        <span>Cyril Blyseth</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#proof">Proof</a>
+        <a href="https://github.com/autonomouscereal" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/cyril-blyseth-3b1a37158" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="mailto:cyrilblyseth@gmail.com">Email</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- HERO -->
-    <section class="pt-32 pb-16 px-8 max-w-6xl mx-auto text-center">
-        <h2 id="hero-name" class="text-6xl md:text-7xl font-bold neon-text flex justify-center gap-3 flex-wrap">
-            <span class="name-letter">C</span><span class="name-letter">Y</span><span class="name-letter">R</span><span class="name-letter">I</span><span class="name-letter">L</span>
-            <span class="name-letter">&nbsp;</span>
-            <span class="name-letter">B</span><span class="name-letter">L</span><span class="name-letter">Y</span><span class="name-letter">S</span><span class="name-letter">Y</span><span class="name-letter">T</span><span class="name-letter">H</span>
-        </h2>
-        <p class="text-4xl text-cyan-300 mt-4">Senior AI Engineer</p>
-        <p class="max-w-xl mx-auto text-2xl text-gray-200 mt-6">
-            Building and testing production-scale AI systems that ship today and scale tomorrow
+  <main id="top">
+    <section class="shell hero">
+      <div>
+        <div class="kicker">Local-first AI systems, security automation, agentic software</div>
+        <h1>Building the kind of AI that actually survives contact with infrastructure.</h1>
+        <p class="lead">
+          I design and ship agentic systems, omnimodal model experiments, secure-code automation,
+          and local AI orchestration layers across messy real-world environments.
         </p>
-    </section>
-
-    <!-- FEATURED PROJECTS -->
-    <section class="max-w-7xl mx-auto px-8 pb-20">
-        <h3 class="section-header text-5xl neon-text text-center mb-12">Featured Projects</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <a href="https://github.com/autonomouscereal/Void-Local-LLM-Wrapper" target="_blank" 
-               class="project-tile p-10 flex flex-col h-full group">
-                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">Void</div>
-                <p class="flex-1 text-xl text-gray-300">My multimodal AI orchestrator harness with deterministic execution, traceability, and real-world media pipelines before claude code.</p>
-                <div class="mt-8 text-sm tracking-[2px] text-pink-400">MULTIMODAL • LOCAL • RELIABLE</div>
-            </a>
-            
-            <a href="https://github.com/autonomouscereal/omnicoder_0.1.0" target="_blank" 
-               class="project-tile p-10 flex flex-col h-full group">
-                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">OmniCoder 0.1</div>
-                <p class="flex-1 text-xl text-gray-300">Multimodal Mixture-of-Experts architecture designed for efficient, high-performance inference across environments.</p>
-                <div class="mt-8 text-sm tracking-[2px] text-pink-400">ON-DEVICE • OMNIMODAL • FUTURE-PROOF</div>
-            </a>
-            
-            <a href="https://github.com/autonomouscereal/botmaker3000" target="_blank" 
-               class="project-tile p-10 flex flex-col h-full group">
-                <div class="text-3xl mb-4 text-cyan-300 group-hover:text-pink-400 transition-colors">Botmaker3000</div>
-                <p class="flex-1 text-xl text-gray-300">Lightweight, extensible framework for building real AI agents and bots for video games.</p>
-                <div class="mt-8 text-sm tracking-[2px] text-pink-400">AGENTS • PROTOTYPING • ADAPTABLE</div>
-            </a>
+        <p class="sublead">
+          My path started with OCR automation in 2015, moved through cybersecurity operations and
+          automation at scale, and now centers on private agentic platforms, local model routing,
+          multimodal generation, and edge-capable AI architecture.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/autonomouscereal/Agentic-IT" target="_blank" rel="noreferrer">Agentic IT</a>
+          <a class="button" href="https://github.com/autonomouscereal/omnicoder_0.1.0" target="_blank" rel="noreferrer">OmniCoder</a>
+          <a class="button" href="https://github.com/autonomouscereal/Void-Local-LLM-Wrapper" target="_blank" rel="noreferrer">Void Harness</a>
         </div>
-    </section>
+      </div>
 
-    <!-- ABOUT (clean single-tile format at the bottom) -->
-    <section class="max-w-4xl mx-auto px-8 pb-20">
-        <div class="big-tile p-12 mx-auto">
-            <h3 class="section-header text-5xl neon-text mb-8 text-center">About</h3>
-            <p class="text-2xl leading-relaxed text-gray-200 text-center max-w-3xl mx-auto">
-                Over a decade shipping production AI and machine learning systems at scale — from designing complex architectures to leading teams that deliver reliable, high-impact AI in real-world environments.
-
-            </p>
-            <p class="text-2xl leading-relaxed text-gray-300 mt-8 text-center max-w-3xl mx-auto">
-                I focus on building and rigorously testing AI that solves hard problems today while staying adaptable for whatever comes next. Whether working with frontier cloud models, local inference, multimodal systems, or intelligent agents, my goal is simple: create AI that is powerful, trustworthy, and ready for deployment.
-            </p>
+      <aside class="console" aria-label="Selected engineering facts">
+        <div class="console-bar">
+          <div class="lights"><span></span><span></span><span></span></div>
+          <span>evidence.json</span>
         </div>
+        <div class="console-body">
+          <div><span class="prompt">&gt;</span> profile.load(<span class="value">"cyril"</span>)</div>
+          <div>{</div>
+          <div>&nbsp;&nbsp;<span class="flag">"focus"</span>: <span class="value">"AI systems that operate under constraints"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="flag">"education"</span>: <span class="value">"MS Data Science + BS Computer Science"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="flag">"background"</span>: [<span class="value">"AI"</span>, <span class="value">"cybersecurity"</span>, <span class="value">"automation"</span>, <span class="value">"operations"</span>],</div>
+          <div>&nbsp;&nbsp;<span class="flag">"public_work"</span>: [<span class="value">"Agentic-IT"</span>, <span class="value">"OmniCoder"</span>, <span class="value">"Void"</span>],</div>
+          <div>&nbsp;&nbsp;<span class="flag">"style"</span>: <span class="value">"prototype, wire, test, harden, repeat"</span></div>
+          <div>}</div>
+          <br>
+          <div class="comment">// I like hard systems: local inference, audit trails, broken docs, missing integrations, and tools that must keep working anyway.</div>
+        </div>
+      </aside>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-cyan-500/30 py-10 text-center text-cyan-400/60 text-base">
-        © 2026 Cyril Blyseth • autonomouscereal<br>
-        Building real edge-native multimodal intelligence.
-    </footer>
+    <section class="shell" id="proof">
+      <div class="section-title">
+        <h2>Proof Of Range</h2>
+        <p>Current public work plus older career evidence, filtered to the parts that matter for serious AI engineering.</p>
+      </div>
+      <div class="proof-grid">
+        <article class="proof">
+          <div class="metric">2015</div>
+          <p>Built OCR-driven underwriting automation to parse bank statements and pay stubs for income, expense, cash-flow, and identity workflows.</p>
+        </article>
+        <article class="proof">
+          <div class="metric">12</div>
+          <p>Led a 24/7 operations and security team while building automation, training programs, incident workflows, and monitoring improvements.</p>
+        </article>
+        <article class="proof">
+          <div class="metric">3</div>
+          <p>Public AI systems projects: an agentic enterprise control plane, an omnimodal model lab, and a local multimodal orchestration harness.</p>
+        </article>
+        <article class="proof">
+          <div class="metric">MS</div>
+          <p>Master's in Data Science and Analytics, Bachelor's in Computer Science, plus security and IT certifications including GSLC, ITIL, and Project+.</p>
+        </article>
+      </div>
+    </section>
 
-    <!-- Canvas: Neural Net + More Active Spaceships + Brighter Lasers -->
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let w, h;
-        let neurons = [];
-        let ships = [];
-        let projectiles = [];
-        let mouse = { x: 0, y: 0, clicked: false };
+    <section class="shell" id="work">
+      <div class="section-title">
+        <h2>Current Work</h2>
+        <p>These are not portfolio toys. They are attempts to make AI useful under real constraints: privacy, latency, audit, tools, hardware, and messy operations.</p>
+      </div>
+      <div class="projects">
+        <a class="project" href="https://github.com/autonomouscereal/Agentic-IT" target="_blank" rel="noreferrer">
+          <span class="tag">Agentic operations</span>
+          <h3>Agentic IT</h3>
+          <p>A private, provider-agnostic control plane for enterprise operations: tickets, alerts, agents, approvals, provider adapters, postmortems, workflows, audit trails, and self-repair loops.</p>
+          <ul>
+            <li>FastAPI, raw PostgreSQL, vanilla JS, Docker</li>
+            <li>Agent harnesses, local model routing, audit evidence</li>
+            <li>Security, service desk, IAM, CI/CD, chat, and provider integrations</li>
+          </ul>
+          <span class="button">View repo</span>
+        </a>
 
-        function resize() {
-            w = window.innerWidth;
-            h = window.innerHeight;
-            canvas.width = w;
-            canvas.height = h;
+        <a class="project" href="https://github.com/autonomouscereal/omnicoder_0.1.0" target="_blank" rel="noreferrer">
+          <span class="tag">Omnimodal model lab</span>
+          <h3>OmniCoder</h3>
+          <p>An experimental single-model architecture for many inputs and outputs: text, code, vision, video, audio, memory, verification, routing, and mobile/export paths.</p>
+          <ul>
+            <li>Sparse MoE transformer and expert routing</li>
+            <li>Multimodal VQ, audio/video/image modules</li>
+            <li>ONNX, Core ML, NNAPI-style, DirectML, and mobile thinking</li>
+          </ul>
+          <span class="button">View repo</span>
+        </a>
+
+        <a class="project" href="https://github.com/autonomouscereal/Void-Local-LLM-Wrapper" target="_blank" rel="noreferrer">
+          <span class="tag">Local AI harness</span>
+          <h3>Void</h3>
+          <p>A local-first orchestration layer that turns chat into real work through tools, multimodal services, deterministic envelopes, artifacts, manifests, quality review, and traces.</p>
+          <ul>
+            <li>OpenAI-compatible API and direct tool execution</li>
+            <li>Image, video, music, TTS, RAG, research, code loops</li>
+            <li>Seeds, checkpoints, quality locks, manifests, distillation traces</li>
+          </ul>
+          <span class="button">View repo</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="section-title">
+        <h2>Trajectory</h2>
+        <p>The through-line is automation under pressure: financial workflows, security operations, AI-assisted secure code, local models, and autonomous work systems.</p>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="year">2015</div>
+          <div>
+            <h3>Applied AI before it was fashionable</h3>
+            <p>Designed OCR automation for underwriting workflows, translating messy documents into useful decision data and operational efficiency.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="year">2018-2023</div>
+          <div>
+            <h3>Security operations and automation leadership</h3>
+            <p>Worked hands-on across network/security operations, SIEM analysis, firewall review, phishing automation, security training, and multi-team operational leadership.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="year">2023-now</div>
+          <div>
+            <h3>AI engineering in regulated, high-trust environments</h3>
+            <p>Built secure-code automation, model-assisted review flows, local AI routing, agent harnesses, and end-to-end control planes for auditable AI work.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="year">Now</div>
+          <div>
+            <h3>Agentic systems and omnimodal models</h3>
+            <p>Building toward AI that can use tools, reason across modalities, run locally where needed, and leave evidence that serious operators can trust.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="signals">
+        <article class="signal">
+          <h3>What I am good at</h3>
+          <p>
+            I move comfortably between model architecture, backend services, Dockerized infrastructure,
+            cybersecurity operations, local inference, frontend control planes, and the unglamorous glue
+            that makes AI systems usable. I like problems where the model is only one part of the machine.
+          </p>
+        </article>
+        <article class="signal">
+          <h3>Signals</h3>
+          <ul>
+            <li>Raw systems builder, not just a prompt user.</li>
+            <li>Comfortable with ambiguity and broken environments.</li>
+            <li>Security-minded from years in real operations.</li>
+            <li>Obsessed with local/private AI, auditability, and edge constraints.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      Cyril Blyseth / autonomouscereal / AI systems, cybersecurity automation, local inference, and agentic operations.
+    </div>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById("field");
+    const ctx = canvas.getContext("2d");
+    let width = 0;
+    let height = 0;
+    let points = [];
+    let streams = [];
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      const count = Math.min(95, Math.max(38, Math.floor(width * height / 18000)));
+      points = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r: 1.4 + Math.random() * 1.8
+      }));
+
+      streams = Array.from({ length: 14 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        speed: 0.6 + Math.random() * 1.6,
+        length: 80 + Math.random() * 180,
+        hue: Math.random() > 0.5 ? "84, 215, 255" : "255, 204, 102"
+      }));
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const stream of streams) {
+        stream.y += stream.speed;
+        if (stream.y - stream.length > height) {
+          stream.y = -stream.length;
+          stream.x = Math.random() * width;
+        }
+        const grad = ctx.createLinearGradient(stream.x, stream.y - stream.length, stream.x, stream.y);
+        grad.addColorStop(0, `rgba(${stream.hue}, 0)`);
+        grad.addColorStop(1, `rgba(${stream.hue}, 0.22)`);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(stream.x, stream.y - stream.length);
+        ctx.lineTo(stream.x, stream.y);
+        ctx.stroke();
+      }
+
+      for (let i = 0; i < points.length; i++) {
+        const a = points[i];
+        a.x += a.vx;
+        a.y += a.vy;
+        if (a.x < 0 || a.x > width) a.vx *= -1;
+        if (a.y < 0 || a.y > height) a.vy *= -1;
+
+        for (let j = i + 1; j < points.length; j++) {
+          const b = points[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 145) {
+            const alpha = (1 - dist / 145) * 0.18;
+            ctx.strokeStyle = `rgba(84, 215, 255, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
         }
 
-        class Neuron {
-            constructor() {
-                this.x = Math.random() * w;
-                this.y = Math.random() * h * 0.85 + 80;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 5 + 4;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > w) this.vx *= -1;
-                if (this.y < 60 || this.y > h - 60) this.vy *= -1;
-            }
-        }
+        ctx.fillStyle = "rgba(245, 247, 251, 0.66)";
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
-        class Ship {
-            constructor() {
-                this.x = Math.random() * w;
-                this.y = Math.random() * h * 0.7 + 60; // full vertical range
-                this.vx = (Math.random() - 0.5) * 4.5; // much faster horizontal
-                this.vy = (Math.random() - 0.5) * 2.8; // added vertical drift
-                this.angle = Math.random() * Math.PI * 2;
-                this.fireCooldown = Math.random() * 30;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.angle += 0.035; // more rotation for lively feel
-                
-                // Bounce off edges with more energy
-                if (this.x < -40 || this.x > w + 40) this.vx *= -1.1;
-                if (this.y < 40 || this.y > h - 40) this.vy *= -1.1;
-                
-                this.fireCooldown--;
-                if (this.fireCooldown <= 0 && Math.random() < 0.12) { // shoot much more often
-                    projectiles.push({
-                        x: this.x,
-                        y: this.y + 12,
-                        vx: (Math.random() - 0.5) * 9,
-                        vy: 8 + Math.random() * 6,
-                        life: 55,
-                        color: '#ff00aa'
-                    });
-                    this.fireCooldown = 12; // rapid fire
-                }
-            }
-        }
+      requestAnimationFrame(step);
+    }
 
-        function createProjectile(x, y, targetX, targetY) {
-            const dx = targetX - x;
-            const dy = targetY - y;
-            const len = Math.hypot(dx, dy) || 1;
-            return {
-                x: x,
-                y: y,
-                vx: (dx / len) * 14,
-                vy: (dy / len) * 14,
-                life: 42,
-                color: '#ff00ff'
-            };
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, w, h);
-
-            // Neurons
-            while (neurons.length < 75) neurons.push(new Neuron());
-            for (let i = 0; i < neurons.length; i++) {
-                const n = neurons[i];
-                n.update();
-                ctx.shadowBlur = 22;
-                ctx.shadowColor = '#00f0ff';
-                ctx.fillStyle = '#00f0ff';
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3);
-            }
-
-            // Synapse connections
-            ctx.shadowBlur = 10;
-            for (let i = 0; i < neurons.length; i++) {
-                for (let j = i + 1; j < neurons.length; j++) {
-                    const dx = neurons[i].x - neurons[j].x;
-                    const dy = neurons[i].y - neurons[j].y;
-                    const dist = Math.hypot(dx, dy);
-                    if (dist < 210 && dist > 35) {
-                        const alpha = (210 - dist) / 210 * 0.6;
-                        ctx.strokeStyle = `rgba(157, 0, 255, ${alpha})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(neurons[i].x, neurons[i].y);
-                        ctx.lineTo(neurons[j].x, neurons[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Ships — now much more active
-            while (ships.length < 7) ships.push(new Ship()); // one extra ship
-            for (let i = 0; i < ships.length; i++) {
-                const s = ships[i];
-                s.update();
-
-                ctx.save();
-                ctx.translate(s.x, s.y);
-                ctx.rotate(s.angle);
-                ctx.shadowBlur = 22;
-                ctx.shadowColor = '#ff00aa';
-                ctx.fillStyle = '#00f0ff';
-                ctx.beginPath();
-                ctx.moveTo(22, 0);
-                ctx.lineTo(-14, -14);
-                ctx.lineTo(-9, 0);
-                ctx.lineTo(-14, 14);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            }
-
-            // Brighter, thicker lasers
-            for (let i = projectiles.length - 1; i >= 0; i--) {
-                const p = projectiles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.life--;
-                if (p.life <= 0) {
-                    projectiles.splice(i, 1);
-                    continue;
-                }
-                ctx.shadowBlur = 38;           // much brighter glow
-                ctx.shadowColor = p.color;
-                ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 4.5;           // thicker
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p.x - p.vx * 2, p.y - p.vy * 2);
-                ctx.stroke();
-                
-                // Extra bright core
-                ctx.shadowBlur = 12;
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = p.color;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p.x - p.vx * 1.2, p.y - p.vy * 1.2);
-                ctx.stroke();
-            }
-
-            // Click target + ships shoot toward it
-            if (mouse.clicked) {
-                ctx.shadowBlur = 45;
-                ctx.shadowColor = '#ff00aa';
-                ctx.fillStyle = 'rgba(255, 0, 170, 0.75)';
-                ctx.fillRect(mouse.x - 16, mouse.y - 16, 32, 32);
-                
-                ships.forEach(s => {
-                    if (Math.hypot(s.x - mouse.x, s.y - mouse.y) < 520) {
-                        projectiles.push(createProjectile(s.x, s.y + 10, mouse.x, mouse.y));
-                    }
-                });
-                mouse.clicked = false;
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        canvas.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        
-        canvas.addEventListener('click', () => {
-            mouse.clicked = true;
-        });
-
-        window.addEventListener('resize', resize);
-        resize();
-        animate();
-
-        // Tailwind
-        tailwind.config = { content: [] };
-    </script>
+    window.addEventListener("resize", resize);
+    resize();
+    step();
+  </script>
 </body>
 </html>
