@@ -78,6 +78,26 @@
         The current reference environment has included iTop, Wazuh, Zeek, Suricata, Mailcow, report-phish flows, Keycloak, GitLab, Semgrep, Trivy, OWASP ZAP, Nuclei, SearXNG, local/cloud model routing, and agent harness work. Those tools are not the product. They are the lab proving the operating loop.
       </p>
 
+      <h2>What it looks like right now</h2>
+      <p>
+        These screenshots are from my lab/reference system, not client work. They show the shape of the control plane: tickets, agents, approval gates, CI/CD runs, provider modules, and evidence.
+      </p>
+
+      <div class="proof-gallery" aria-label="Agentic IT screenshots">
+        <figure class="proof-card">
+          <img src="../assets/proof/agentic-it-overview.png" alt="Agentic Ops overview showing operations metrics, agent task runtime, SLA snapshot, workflow runs, CI/CD runs, and tool health">
+          <figcaption>Overview: the control plane tracks tickets, agents, approval gates, workflow runs, CI/CD runs, and tool health together.</figcaption>
+        </figure>
+        <figure class="proof-card">
+          <img src="../assets/proof/agentic-it-ticket-evidence.png" alt="Agentic Ops ticket detail modal with requester, affected user, assignment group, provider sync, and ticket metadata">
+          <figcaption>Ticket detail: work created from chat still lands in a structured ticket with provider sync and operational metadata.</figcaption>
+        </figure>
+        <figure class="proof-card">
+          <img src="../assets/proof/agentic-it-cicd.png" alt="Agentic Ops CI/CD delivery gates page with GitLab pipeline controls, ticket creation, approval gates, and recent runs">
+          <figcaption>CI/CD: scanner and pipeline work can create tickets, require approvals, and keep findings attached to a run.</figcaption>
+        </figure>
+      </div>
+
       <h2>The operating loop</h2>
       <p>
         A user should not need to know whether their issue is an incident, service request, access request, IAM problem, CI/CD problem, or security alert. They should describe the problem. The intake agent should ask concise clarifying questions when needed, classify urgency, look for related tickets or outages, route through assignment logic, and create or update the right work record.
