@@ -78,8 +78,8 @@
 
     <section class="wrap section" id="systems">
       <div class="section-head">
-        <p class="eyebrow">Flagship systems</p>
-        <h2>Top work to inspect first</h2>
+        <p class="eyebrow">Current work</p>
+        <h2>Work to inspect first</h2>
       </div>
 
       <div class="system-grid">
@@ -105,41 +105,61 @@
 
         <article class="system-card">
           <div>
-            <p class="eyebrow">OmniCoder</p>
+            <p class="eyebrow">CI/CD security</p>
+            <h3>Security automation and review</h3>
+          </div>
+          <p>
+            Current professional work around automated security review, scanner
+            output, repository ingestion, prioritization, and human gates.
+          </p>
+          <ul>
+            <li>Focused on making findings easier to evaluate, explain, and route.</li>
+            <li>Strong overlap with my SOC/NOC/DevOps background: evidence, repeatability, escalation, and approval.</li>
+            <li>Client-specific details stay off the public site.</li>
+          </ul>
+          <div class="project-actions">
+            <a href="blog/secure-cicd-ai-review.html">Technical note</a>
+          </div>
+        </article>
+
+        <article class="system-card">
+          <div>
+            <p class="eyebrow">OmniCoder / in progress</p>
             <h3>Omnimodal model architecture</h3>
           </div>
           <p>
-            Model systems lab for text, code, image, video, audio, structured
-            artifacts, and tool/action traces.
+            In-progress model systems lab for text, code, image, video, audio,
+            structured artifacts, and tool/action traces.
           </p>
           <ul>
             <li>Sparse MoE, routing, memory, multimodal tokenization, verifier loops, reward scaffolds, and export paths.</li>
             <li>Runtime work across ONNX, Core ML, DirectML, NNAPI-style paths, ExecuTorch, GGUF, MLC/TVM, and mobile packaging.</li>
-            <li>Architecture/experiment base, not a finished public model release.</li>
+            <li>Architecture and experiments for now, not a finished public model release.</li>
           </ul>
           <div class="project-actions">
             <a href="https://github.com/autonomouscereal/omnicoder_0.1.0" target="_blank" rel="noreferrer">GitHub repo</a>
             <a href="blog/omnicoder-model-systems-notes.html">Technical note</a>
           </div>
         </article>
+      </div>
 
-        <article class="system-card">
-          <div>
-            <p class="eyebrow">Void</p>
-            <h3>Local AI execution wrapper</h3>
-          </div>
-          <p>
-            Local AI wrapper/orchestrator for model calls, tools, RAG, code loops,
-            media services, artifacts, review, and traces.
-          </p>
-          <ul>
-            <li>Grew out of DungeonGPT and earlier harness work.</li>
-            <li>Built around structured output and actual tool execution.</li>
-            <li>Designed for local/private AI workflows with swappable services and models.</li>
-          </ul>
-          <div class="project-actions">
+      <div class="older-work">
+        <p class="eyebrow">Older / superseded</p>
+        <article class="project-row">
+          <div class="project-meta">
+            <span>Older local AI work</span>
             <a href="https://github.com/autonomouscereal/Void-Local-LLM-Wrapper" target="_blank" rel="noreferrer">GitHub repo</a>
             <a href="blog/local-ai-that-does-real-work.html">Technical note</a>
+          </div>
+          <div class="project-body">
+            <h3>Void / local AI execution wrapper</h3>
+            <p>
+              Void is older work at this point. It was a useful wrapper for local
+              model calls, tools, RAG, code loops, media services, artifacts,
+              review, and traces, but it has been superseded by newer systems.
+              I still keep it linked because it shows the path into the current
+              orchestration work.
+            </p>
           </div>
         </article>
       </div>
@@ -155,7 +175,7 @@
         <article>
           <div class="resume-meta">
             <span>2023-current</span>
-            <strong>Titan Technologies / Zen Strategics / DHS-USCIS</strong>
+            <strong>Titan Technologies / Zen Strategics</strong>
           </div>
           <div>
             <h3>AI, cybersecurity, CI/CD automation</h3>
@@ -202,14 +222,13 @@
 
     <section class="wrap section" id="proof">
       <div class="section-head">
-        <p class="eyebrow">What this version still needs</p>
+        <p class="eyebrow">Proof</p>
         <h2>Receipts</h2>
       </div>
       <div class="plain-list">
-        <p>Agentic IT screenshots: dashboard, tickets, agents, approvals, audit, tools, workflows, postmortems.</p>
-        <p>OmniCoder diagrams: model shape, routing/memory/export paths, test/benchmark examples.</p>
-        <p>Void examples: tool envelopes, traces, artifacts, review output, local model routing.</p>
-        <p>CI/CD examples: scanner ingestion, finding normalization, report prioritization, gate flow.</p>
+        <p>Agentic IT is the main proof piece: dashboard screenshots, tickets, agents, approvals, audit, setup/tool health, workflows, and postmortems.</p>
+        <p>CI/CD security automation is represented through sanitized examples: scanner ingestion, finding normalization, report prioritization, and gate flow.</p>
+        <p>Void stays linked as older/superseded work. It is history, not the centerpiece.</p>
       </div>
     </section>
 

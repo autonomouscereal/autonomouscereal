@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Local AI execution with envelopes and traces | Cyril Blyseth</title>
-  <meta name="description" content="A technical note by Cyril Blyseth on local AI orchestration, deterministic tool envelopes, traces, artifacts, and review loops.">
+  <title>Void: local AI execution notes | Cyril Blyseth</title>
+  <meta name="description" content="An older/superseded project note by Cyril Blyseth on local AI orchestration, deterministic tool envelopes, traces, artifacts, and review loops.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#f7f4ed">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -25,8 +25,14 @@
   <main class="blog-shell">
     <article class="article">
       <p class="eyebrow">Local AI</p>
-      <h1>Local AI execution with envelopes and traces</h1>
+      <h1>Void: local AI execution notes</h1>
       <p class="byline">June 2026 / Cyril Blyseth</p>
+
+      <p>
+        Void is older/superseded work now. I am keeping this note because it
+        shows how I was thinking about local AI execution: tools, traces, job
+        records, artifacts, and review loops.
+      </p>
 
       <blockquote>
         The system is what happens after the model says something: tools, files, jobs, manifests, quality checks, failures, retries, and evidence.
@@ -46,7 +52,7 @@
       </p>
 
       <p>
-        In Void, the core idea is to route work through strict envelopes and job records:
+        In Void, the core idea was to route work through strict envelopes and job records:
       </p>
 
       <ul>
@@ -107,7 +113,7 @@
       </ul>
 
       <p>
-        That is why Void treats media generation, research collection, code loops, RAG hygiene, artifact indexing, and quality review as part of one execution layer. The point is not to have every tool. The point is to make tools composable without losing evidence.
+        That is why Void treated media generation, research collection, code loops, RAG hygiene, artifact indexing, and quality review as part of one execution layer. The point was not to have every tool. The point was to make tools composable without losing evidence.
       </p>
 
       <h2>Quality review is part of the runtime</h2>
@@ -142,7 +148,7 @@
       </ul>
 
       <p>
-        That is the layer I am building toward: local AI that does real work and leaves enough evidence to improve itself.
+        That is the layer I kept building toward after Void: local AI that does real work and leaves enough evidence to improve itself.
       </p>
 
       <nav class="post-nav" aria-label="Post navigation">
