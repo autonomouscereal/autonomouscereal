@@ -58,7 +58,7 @@
 
       <h2>Routing is the model doing less on purpose</h2>
       <p>
-        A model that can handle many modalities cannot afford to wake every capability for every request. OmniCoder experiments with sparse MoE, hierarchical routing, expert paging hooks, variable-K routing, capacity-aware dispatch, and runtime switches because the routing decision affects latency, memory, batching, export, and specialization.
+        A model that can handle many modalities cannot afford to wake every capability for every request. OmniCoder uses sparse MoE, hierarchical routing, expert paging hooks, variable-K routing, capacity-aware dispatch, and runtime switches because the routing decision affects latency, memory, batching, export, and specialization.
       </p>
 
       <p>
@@ -67,7 +67,7 @@
 
       <h2>Long context is a runtime problem</h2>
       <p>
-        OmniCoder treats context length as a systems problem, not as a number to brag about. The repo includes sliding-window decode, memory slots, landmark/random-access attention experiments, retrieval and PQ/kNN hooks, KV quantization, KV retention sidecars, and learned KV compression experiments.
+        OmniCoder treats context length as a systems problem, not as a number to brag about. The repo includes sliding-window decode, memory slots, landmark/random-access attention work, retrieval and PQ/kNN hooks, KV quantization, KV retention sidecars, and learned KV compression work.
       </p>
 
       <p>
@@ -103,7 +103,7 @@
 
       <h2>What the repo is right now</h2>
       <p>
-        The public repo is an experiment base. It does not publish the full model weights or every private training run. It does contain the architecture lanes, tests, small canaries, export tools, provider benches, runtime adapters, training plumbing, and enough scaffolding to make the research direction inspectable.
+        The public repo is a research base. It does not publish the full model weights or every private training run. It does contain the architecture lanes, tests, small canaries, export tools, provider benches, runtime adapters, training plumbing, and enough scaffolding to make the research direction inspectable.
       </p>
 
       <p>

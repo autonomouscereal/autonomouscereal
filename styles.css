@@ -154,11 +154,10 @@ p {
 
 .alt-hero {
   align-items: center;
-  border-bottom: 1px solid var(--line);
   display: grid;
   gap: 44px;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
-  padding: 76px 0 58px;
+  padding: 76px 0 34px;
 }
 
 .alt-hero-copy p {
@@ -192,6 +191,27 @@ p {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 13px;
   padding: 5px 8px;
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.profile-links a {
+  color: var(--accent);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.profile-links a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
 }
 
 .note-card {
@@ -235,15 +255,22 @@ section[id] {
 }
 
 .alt-stats {
+  border-bottom: 0;
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-top: 34px;
 }
 
 .stat-grid article,
 .alt-stats article {
   border-top: 1px solid var(--line);
   padding-top: 18px;
+}
+
+.alt-stats article {
+  border-top: 0;
+  padding-top: 0;
 }
 
 .stat-grid span,
@@ -390,6 +417,35 @@ section[id] {
 
 .older-work {
   margin-top: 42px;
+}
+
+.supporting-work {
+  margin-top: 42px;
+}
+
+.support-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.support-grid article {
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+}
+
+.support-grid h3 {
+  font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.support-grid p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 0;
 }
 
 .system-card h3 {
@@ -540,6 +596,10 @@ li + li {
   padding: 44px 0 70px;
 }
 
+.article h1 {
+  overflow-wrap: anywhere;
+}
+
 .article h2 {
   margin-top: 42px;
   font-size: clamp(28px, 4vw, 40px);
@@ -558,6 +618,10 @@ li + li {
 .article code {
   color: var(--accent-2);
   font-size: 0.95em;
+}
+
+.article a {
+  overflow-wrap: anywhere;
 }
 
 .article pre {
@@ -606,6 +670,7 @@ li + li {
   .stat-grid,
   .alt-stats,
   .system-grid,
+  .support-grid,
   .section-head,
   .resume-list > article,
   .resume-entry,
