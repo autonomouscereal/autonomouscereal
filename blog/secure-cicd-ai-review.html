@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure CI/CD review workflow | Cyril Blyseth</title>
+  <meta name="description" content="A technical note by Cyril Blyseth on secure CI/CD review, static analysis, model-assisted triage, evidence, and human approval gates.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f7f4ed">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../">Cyril Blyseth</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../#work">Work</a>
+        <a href="./">Writing</a>
+        <a href="../#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-shell">
+    <article class="article">
+      <p class="eyebrow">CI/CD security</p>
+      <h1>Secure CI/CD review workflow</h1>
+      <p class="byline">June 2026 / Cyril Blyseth</p>
+
+      <blockquote>
+        The model should not be the security authority. It should help move evidence through a workflow where scanners, humans, policies, and deployment gates still matter.
+      </blockquote>
+
+      <p>
+        Secure code review is a good place to be skeptical about AI. The failure mode is obvious: a model explains a vulnerability confidently, misses the real issue, approves the wrong thing, or buries a developer under generated noise.
+      </p>
+
+      <p>
+        But the opposite failure mode is also real. Security review can become slow, inconsistent, and disconnected from the delivery pipeline. Findings sit in tools. Context lives in tickets. Exceptions live in someone's head. Developers get vague guidance. Reviewers spend time sorting obvious noise instead of focusing on risk.
+      </p>
+
+      <p>
+        That is why I think secure CI/CD review is not just a scanner problem or an AI problem. It is a workflow problem.
+      </p>
+
+      <h2>The scanner is evidence, not the whole decision</h2>
+      <p>
+        Tools like Semgrep, SonarQube, Trivy, ZAP, and Nuclei are useful because they create structured signals. The mistake is treating any single signal as the full truth.
+      </p>
+
+      <p>
+        A sane loop looks more like this:
+      </p>
+
+      <pre><code>code change
+  -> static analysis / dependency scan / IaC scan
+  -> finding normalization
+  -> risk triage
+  -> human approval or remediation request
+  -> policy decision
+  -> audit record
+  -> deployment gate</code></pre>
+
+      <p>
+        The AI layer belongs in the middle, not at the top. It can summarize findings, connect them to changed files, propose remediation, identify repeated patterns, and draft reviewer notes. It should not silently approve risk.
+      </p>
+
+      <h2>Normalize findings before asking a model anything</h2>
+      <p>
+        Raw scanner output is messy. Different tools use different severities, rule IDs, file references, confidence levels, and metadata. If those records go straight into a prompt, the model has to infer the schema every time.
+      </p>
+
+      <p>
+        I would rather normalize first:
+      </p>
+
+      <ul>
+        <li>tool name and version</li>
+        <li>rule ID and category</li>
+        <li>severity and confidence</li>
+        <li>file path and line reference</li>
+        <li>changed-code context</li>
+        <li>known suppressions or accepted risk</li>
+        <li>policy gate affected</li>
+      </ul>
+
+      <p>
+        Then the model can work against a stable object. That makes it easier to test prompts, compare model behavior, and keep the final decision tied to structured evidence.
+      </p>
+
+      <h2>The human gate should be explicit</h2>
+      <p>
+        Security automation gets dangerous when the approval path is vague. If a finding is informational, maybe the pipeline can annotate and continue. If a finding is high severity in changed code, the system should know whether it needs remediation, exception approval, or a documented risk decision.
+      </p>
+
+      <p>
+        This is where the broader operations platform connects back to CI/CD. The review should produce work state:
+      </p>
+
+      <ul>
+        <li>a finding record</li>
+        <li>a reviewer action</li>
+        <li>a requested remediation</li>
+        <li>an exception with an owner and expiration</li>
+        <li>a deployment gate result</li>
+        <li>an audit trail for later inspection</li>
+      </ul>
+
+      <p>
+        The model can help move the work, but the gate should be a real gate.
+      </p>
+
+      <h2>What AI is good at here</h2>
+      <p>
+        The useful AI work is not "replace the security engineer." It is more practical:
+      </p>
+
+      <ul>
+        <li>Cluster duplicate findings across tools.</li>
+        <li>Explain a finding in the context of the changed code.</li>
+        <li>Draft a remediation plan for the developer.</li>
+        <li>Identify whether a finding is in test code, generated code, or production code.</li>
+        <li>Compare current findings against previous accepted risk.</li>
+        <li>Create reviewer summaries that link back to raw evidence.</li>
+      </ul>
+
+      <p>
+        That is the kind of AI I trust more: not an oracle, but a workflow accelerant with evidence attached.
+      </p>
+
+      <h2>The goal is consistency</h2>
+      <p>
+        In real environments, security quality is not just about catching the one scary bug. It is about consistency across teams, repositories, releases, reviewers, and time. AI can help with that if the system is designed around evidence and gates.
+      </p>
+
+      <p>
+        My rule is simple: automate the repeatable parts, keep humans on the risk decisions, make every decision inspectable, and never let the model become the only record of what happened.
+      </p>
+
+      <nav class="post-nav" aria-label="Post navigation">
+        <a href="./">All writing</a>
+        <a href="../">Home</a>
+      </nav>
+    </article>
+  </main>
+</body>
+</html>

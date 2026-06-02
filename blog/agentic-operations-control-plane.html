@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic IT: what I am actually building | Cyril Blyseth</title>
+  <meta name="description" content="A technical note by Cyril Blyseth on Agentic IT: local/private enterprise operations automation, governed agents, approvals, evidence, postmortems, and reusable workflows.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f7f4ed">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../">Cyril Blyseth</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../#work">Work</a>
+        <a href="./">Writing</a>
+        <a href="../#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-shell">
+    <article class="article">
+      <p class="eyebrow">Agentic IT</p>
+      <h1>Agentic IT: what I am actually building</h1>
+      <p class="byline">June 2026 / Cyril Blyseth</p>
+
+      <blockquote>
+        Digital work is convoluted to the nth degree. The answer is not another dashboard, chatbot, or one-off automation script.
+      </blockquote>
+
+      <p>
+        This project is easy to misunderstand if you only look at a screenshot. It is not an iTop clone. It is not a Wazuh wrapper. It is not a SOC dashboard with a model bolted on. The dashboard is where humans can supervise the work, but the thing I am building is an autonomous enterprise operations layer.
+      </p>
+
+      <p>
+        The goal is local/private by default: install the operating layer, connect it to the tools an organization already has, deploy approved reference modules where there are gaps, and let agents take on real operational work with approvals, scoped access, evidence, user follow-up, and postmortems.
+      </p>
+
+      <h2>Why I care about this problem</h2>
+      <p>
+        I have been inside the kind of environment this is meant to reduce. Network monitoring, security incidents, phishing investigations, Splunk and Palo Alto logs, firewall changes, DNS records, case notes, change boards, CI/CD security checks, XSOAR-style automation, user support, team handoffs, and the constant problem of getting the right context to the right person at the right time.
+      </p>
+
+      <p>
+        The work is not hard because one ticket is impossible. It is hard because every ticket crosses tools, teams, permissions, calendars, policies, logs, and half-remembered tribal knowledge. A model answering in chat does not fix that. A hardcoded playbook fixes one slice of it. The interesting problem is turning messy human work into governed agent work without losing the operational record.
+      </p>
+
+      <h2>What I am trying to build</h2>
+      <p>
+        The system should be able to start small, but it should still be built like real infrastructure. The rough setup:
+      </p>
+
+      <ul>
+        <li>Install one private operating layer.</li>
+        <li>Discover or connect to the enterprise tools already in place.</li>
+        <li>Deploy reference modules only where the organization wants the platform to fill gaps.</li>
+        <li>Turn tickets, alerts, chat, email, CI/CD events, schedules, and direct requests into structured work.</li>
+        <li>Assign that work to agents with narrow permissions and clear boundaries.</li>
+        <li>Stop for approval before risky or environment-changing action.</li>
+        <li>Write evidence as the work happens, not as a cleanup step after everyone forgot the details.</li>
+        <li>After completion, run postmortems that can create or improve workflows, skills, tests, and knowledge.</li>
+      </ul>
+
+      <p>
+        The end state is not "AI helps with tickets." The end state is that a small number of humans supervise approvals, exceptions, strategy, and accountability while agents handle more and more of the repeatable operational labor.
+      </p>
+
+      <h2>Why the first proof is SOC and IT</h2>
+      <p>
+        SOC and IT are not the final boundary. They are the first useful proof because they exercise nearly every hard primitive: alerts, tickets, identity, email, logs, endpoint signals, code scanning, change requests, user questions, false positives, evidence, escalation, and remediation.
+      </p>
+
+      <p>
+        The current reference environment has included iTop, Wazuh, Zeek, Suricata, Mailcow, report-phish flows, Keycloak, GitLab, Semgrep, Trivy, OWASP ZAP, Nuclei, SearXNG, local/cloud model routing, and agent harness work. Those tools are not the product. They are the lab proving the operating loop.
+      </p>
+
+      <h2>The operating loop</h2>
+      <p>
+        A user should not need to know whether their issue is an incident, service request, access request, IAM problem, CI/CD problem, or security alert. They should describe the problem. The intake agent should ask concise clarifying questions when needed, classify urgency, look for related tickets or outages, route through assignment logic, and create or update the right work record.
+      </p>
+
+      <p>
+        Then the ticket agent works the issue. It reads the context, checks whether there is an approved workflow or knowledge article, decides what tools and evidence it needs, requests access if it hits a permission wall, requests approval if it needs to change something, updates the user when it is waiting, and completes or stages the next action.
+      </p>
+
+      <p>
+        After that, a postmortem pass asks the part most automation skips: should this become a reusable workflow, should an existing workflow change, did the alert need tuning, did the knowledge base miss something, did the agent need a new skill, and what test would catch this next time?
+      </p>
+
+      <h2>Guardrails are the architecture</h2>
+      <p>
+        The agent should be allowed to reason. The platform should enforce the walls.
+      </p>
+
+      <p>
+        A ticket agent can request access, but it cannot grant access to itself. It can request a change, but it cannot approve risky work. It can gather evidence, but it should not hide product-specific failure behind a friendly status message. It can continue after a user responds, but the continuation needs to know what already happened.
+      </p>
+
+      <p>
+        That means approval gates, scoped credential leases, access requests, provider sync, tool health, agent logs, ticket notes, and audit events are not side features. They are the difference between a neat demo and something I would trust near real infrastructure.
+      </p>
+
+      <h2>Why this belongs in AI infrastructure</h2>
+      <p>
+        This work is not just "add AI to ITSM." It touches the parts of AI systems that I think matter most going forward: local model routing, harness behavior, memory scoping, tool permissioning, workflow evaluation, agent continuation, run replay, provider adapters, and learning from completed work without turning every environment into a SaaS data source.
+      </p>
+
+      <p>
+        The question I keep chasing is practical: how much real enterprise work can agents take over if the system around them gives them the right context, narrow tools, approval paths, memory, and a way to learn from the work they finish?
+      </p>
+
+      <nav class="post-nav" aria-label="Post navigation">
+        <a href="./">All writing</a>
+        <a href="../">Home</a>
+      </nav>
+    </article>
+  </main>
+</body>
+</html>

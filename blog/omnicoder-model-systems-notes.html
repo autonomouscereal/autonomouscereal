@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniCoder: model systems notes | Cyril Blyseth</title>
+  <meta name="description" content="A technical note by Cyril Blyseth on OmniCoder, an omnimodal model systems lab for routing, memory, multimodal tokenization, verification, training loops, and runtime export.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f7f4ed">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../">Cyril Blyseth</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../#work">Work</a>
+        <a href="./">Writing</a>
+        <a href="../#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-shell">
+    <article class="article">
+      <p class="eyebrow">Model systems</p>
+      <h1>OmniCoder: model systems notes</h1>
+      <p class="byline">June 2026 / Cyril Blyseth</p>
+
+      <blockquote>
+        OmniCoder asks one main question: how much can a compact model family do when routing, memory, verification, and export are designed together?
+      </blockquote>
+
+      <p>
+        OmniCoder is not an app wrapper and it is not a claim that I have a finished frontier model sitting in a public repo. It is an architecture lab for an omnimodal model family: one codebase exploring how text, code, images, video, audio, structured context, and tool/action traces can move through a shared reasoning system.
+      </p>
+
+      <p>
+        The practical bet is that smaller local-capable models can become much more useful when routing, memory, verifier loops, multimodal tokenization, and runtime export are treated as first-class design constraints instead of cleanup work after the model exists.
+      </p>
+
+      <h2>The shape of the system</h2>
+      <p>
+        The architecture breaks down into four layers:
+      </p>
+
+      <ul>
+        <li>Modality adapters and tokenizers for text/code tokens, image/video/audio VQ codes, continuous latents, metadata, and tool traces.</li>
+        <li>A shared reasoning core built around sparse experts, routing, long-context memory, retrieval hooks, and refinement.</li>
+        <li>Output heads and decoders for text, code, image, video, audio, verifier outputs, action/tool heads, and latent refinement.</li>
+        <li>Verification, training, and runtime packaging so the system can be tested, distilled, exported, benchmarked, and deployed.</li>
+      </ul>
+
+      <p>
+        The important part is not that every modality magically becomes the same thing. The important part is that each modality has a way into and out of the same reasoning core.
+      </p>
+
+      <h2>Routing is the model doing less on purpose</h2>
+      <p>
+        A model that can handle many modalities cannot afford to wake every capability for every request. OmniCoder experiments with sparse MoE, hierarchical routing, expert paging hooks, variable-K routing, capacity-aware dispatch, and runtime switches because the routing decision affects latency, memory, batching, export, and specialization.
+      </p>
+
+      <p>
+        If the request is mostly code, the system should not pay the full cost of image, video, and audio paths. If the request is visual, it should route toward the right representation path. If the target runtime is a phone, a laptop, or a constrained local box, the model has to respect the actual budget.
+      </p>
+
+      <h2>Long context is a runtime problem</h2>
+      <p>
+        OmniCoder treats context length as a systems problem, not as a number to brag about. The repo includes sliding-window decode, memory slots, landmark/random-access attention experiments, retrieval and PQ/kNN hooks, KV quantization, KV retention sidecars, and learned KV compression experiments.
+      </p>
+
+      <p>
+        The point is bounded usefulness. What should stay hot? What should be compressed? What should be retrieved? What can be dropped? That decision belongs to the model and runtime together.
+      </p>
+
+      <h2>Multimodal output is the hard part</h2>
+      <p>
+        Feeding an image into a model is only one side of the problem. The harder question is how the system should produce useful outputs across text, code, images, video, audio, and tool actions without turning into a pile of unrelated services.
+      </p>
+
+      <p>
+        That is why OmniCoder has scaffolding for image VQ, image decoding, video VQ, video heads, interpolation, audio tokenization, audio VQ-VAE, vocoder paths, ASR/TTS adapters, grounding, cross-modal fusion, verifier heads, and tool/action heads. Some pieces are runnable smokes. Some pieces define interfaces for future training and weights. The value is in forcing the interfaces to exist.
+      </p>
+
+      <h2>Verification is part of the model</h2>
+      <p>
+        I do not want a system that just emits a confident answer. OmniCoder includes HRM-style refinement, reward modeling, GRPO/PPO/RLHF scaffolds, code verification, multi-solution generation, verifier distillation, cross-modal verification, and cycle-consistency ideas because candidate generation and checking should be designed together.
+      </p>
+
+      <p>
+        Code should be tested. Tool actions should be validated. Cross-modal conversions should have ways to catch obvious failures. Visual and audio outputs should be checked against constraints instead of treated as successful because the output file exists.
+      </p>
+
+      <h2>Export keeps the research honest</h2>
+      <p>
+        Runtime export is not a side quest in this project. ONNX, Core ML, DirectML, NNAPI-style runners, ExecuTorch, llama.cpp/GGUF, MLC/TVM hooks, provider benches, mobile presets, and package manifests matter because deployment constraints should shape the model architecture.
+      </p>
+
+      <p>
+        If the model can only work in one giant training environment, it does not answer the local/private/edge question I care about. Export paths reveal where the design is real and where it is just a nice idea in a Python file.
+      </p>
+
+      <h2>What the repo is right now</h2>
+      <p>
+        The public repo is an experiment base. It does not publish the full model weights or every private training run. It does contain the architecture lanes, tests, small canaries, export tools, provider benches, runtime adapters, training plumbing, and enough scaffolding to make the research direction inspectable.
+      </p>
+
+      <p>
+        That is why I call it model systems work. The model, router, memory, verifier, data path, tool path, and runtime cannot be designed separately if the goal is a useful omnimodal system that can run outside a lab.
+      </p>
+
+      <nav class="post-nav" aria-label="Post navigation">
+        <a href="./">All writing</a>
+        <a href="../">Home</a>
+      </nav>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local AI execution with envelopes and traces | Cyril Blyseth</title>
+  <meta name="description" content="A technical note by Cyril Blyseth on local AI orchestration, deterministic tool envelopes, traces, artifacts, and review loops.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f7f4ed">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../">Cyril Blyseth</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../#work">Work</a>
+        <a href="./">Writing</a>
+        <a href="../#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-shell">
+    <article class="article">
+      <p class="eyebrow">Local AI</p>
+      <h1>Local AI execution with envelopes and traces</h1>
+      <p class="byline">June 2026 / Cyril Blyseth</p>
+
+      <blockquote>
+        The system is what happens after the model says something: tools, files, jobs, manifests, quality checks, failures, retries, and evidence.
+      </blockquote>
+
+      <p>
+        I built Void because I kept running into the same problem: local AI stacks can generate impressive outputs, but the work around the model turns into a pile of brittle scripts. One script calls an image workflow. Another calls a video workflow. Another searches the web. Another writes a file. Nothing shares a job model. Nothing shares evidence. Nothing is easy to rerun.
+      </p>
+
+      <p>
+        That is fine for a one-off experiment. It is not fine if the goal is an execution layer for local and self-hosted AI.
+      </p>
+
+      <h2>The execution layer</h2>
+      <p>
+        I still like an OpenAI-compatible endpoint because it gives tools and apps a familiar front door. But the front door is not the architecture. The important part is what the orchestrator does after the request arrives.
+      </p>
+
+      <p>
+        In Void, the core idea is to route work through strict envelopes and job records:
+      </p>
+
+      <ul>
+        <li>Normalize assistant and tool output before trusting it.</li>
+        <li>Separate chat responses from tool execution.</li>
+        <li>Give long-running jobs stable IDs and lifecycle state.</li>
+        <li>Stamp media and code work with seeds, parameters, hashes, and manifests.</li>
+        <li>Preserve traces that can be reviewed, replayed, or used for later training.</li>
+      </ul>
+
+      <p>
+        The model can still be creative. The system around it has to be strict about what actually happened.
+      </p>
+
+      <h2>Why envelopes matter</h2>
+      <p>
+        A model can say "I used the image tool" in plain text. That is not a tool call. It is a claim. If the orchestration layer treats claims as actions, the whole stack becomes fragile.
+      </p>
+
+      <p>
+        I want a stricter boundary:
+      </p>
+
+      <pre><code>request
+  -> planner / semantic router
+  -> typed tool envelope
+  -> tool execution
+  -> artifact manifest
+  -> quality review
+  -> trace record
+  -> user-facing result</code></pre>
+
+      <p>
+        The envelope is the contract between model language and system behavior. It is where arguments get normalized, malformed JSON gets rejected or repaired, tool names get resolved, and the work becomes something the rest of the system can reason about.
+      </p>
+
+      <p>
+        This is especially important for multimodal work. Image, video, music, TTS, OCR, VLM, RAG, research, and code loops all have different runtimes and failure modes. If they all return random strings, the system cannot make good decisions afterward.
+      </p>
+
+      <h2>Local-first does not mean small ambition</h2>
+      <p>
+        Local AI is not just about avoiding API bills. The real reasons are privacy, latency, hardware control, offline work, reproducibility, and the ability to build weird pipelines without waiting for a hosted product to expose the exact capability you need.
+      </p>
+
+      <p>
+        But local-first makes orchestration harder. You have to think about:
+      </p>
+
+      <ul>
+        <li>Which services are running.</li>
+        <li>Which models are loaded.</li>
+        <li>What hardware is available.</li>
+        <li>How long jobs can run.</li>
+        <li>Where artifacts are stored.</li>
+        <li>How quality is judged.</li>
+        <li>How to recover after a service fails halfway through.</li>
+      </ul>
+
+      <p>
+        That is why Void treats media generation, research collection, code loops, RAG hygiene, artifact indexing, and quality review as part of one execution layer. The point is not to have every tool. The point is to make tools composable without losing evidence.
+      </p>
+
+      <h2>Quality review is part of the runtime</h2>
+      <p>
+        A lot of AI systems stop at generation. I think that is the wrong stopping point. If a system creates an artifact, it should also create enough context to decide whether the artifact is any good.
+      </p>
+
+      <p>
+        For media, that can mean scores, review committees, locks, post-run review, style packs, seed tracking, and refinement decisions. For research, it can mean sources, extraction notes, contradictions, and confidence. For code, it can mean tests, diffs, lint results, and human approval.
+      </p>
+
+      <p>
+        The pattern is the same: generation is not done until the system can say what happened and why the result should or should not be trusted.
+      </p>
+
+      <h2>The real product is evidence</h2>
+      <p>
+        The deeper I get into local AI systems, the more I think the winners will not just have better prompts or prettier frontends. They will have better execution records.
+      </p>
+
+      <p>
+        The serious question is:
+      </p>
+
+      <ul>
+        <li>Can it do the work again?</li>
+        <li>Can it explain what tools ran?</li>
+        <li>Can it show what files changed?</li>
+        <li>Can it preserve the seed and parameters?</li>
+        <li>Can it fail without corrupting the workspace?</li>
+        <li>Can the trace become training data later?</li>
+      </ul>
+
+      <p>
+        That is the layer I am building toward: local AI that does real work and leaves enough evidence to improve itself.
+      </p>
+
+      <nav class="post-nav" aria-label="Post navigation">
+        <a href="./">All writing</a>
+        <a href="../">Home</a>
+      </nav>
+    </article>
+  </main>
+</body>
+</html>
