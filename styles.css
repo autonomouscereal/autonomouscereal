@@ -275,12 +275,25 @@ section[id] {
   gap: 26px;
 }
 
-.resume-list > article {
+.resume-list > article,
+.resume-entry {
   border-top: 1px solid var(--line);
   display: grid;
   gap: 30px;
   grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
   padding-top: 28px;
+}
+
+.resume-entry {
+  color: inherit;
+  text-decoration: none;
+}
+
+.resume-entry:hover h3,
+.resume-entry:focus-visible h3 {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
 }
 
 .resume-list h3 {
@@ -411,6 +424,14 @@ section[id] {
 
 .compact-resume p {
   max-width: 760px;
+}
+
+.detail-link {
+  color: var(--accent);
+  display: inline-block;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  margin-top: 14px;
 }
 
 .project-row {
@@ -587,6 +608,7 @@ li + li {
   .system-grid,
   .section-head,
   .resume-list > article,
+  .resume-entry,
   .project-row,
   .post-link,
   .timeline article {
