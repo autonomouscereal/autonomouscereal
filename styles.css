@@ -448,6 +448,31 @@ section[id] {
   margin-top: 0;
 }
 
+.support-proof-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.support-proof-grid figure {
+  margin: 0;
+}
+
+.support-proof-grid img {
+  background: #f4f6f8;
+  border: 1px solid var(--line);
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.support-proof-grid figcaption {
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 7px;
+}
+
 .system-card h3 {
   font-size: clamp(24px, 2.5vw, 34px);
 }

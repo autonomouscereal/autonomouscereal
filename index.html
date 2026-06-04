@@ -158,6 +158,22 @@
               Public patterns for scoped agent credentials, durable agent memory,
               local model routing, and practical local AI operations.
             </p>
+            <p>
+              Update: the credential broker now includes secure intake forms for
+              user-provided sensitive values. The agent creates exact fields and
+              gets references back; submitted values stay encrypted behind the
+              broker for provider adapters.
+            </p>
+            <div class="support-proof-grid">
+              <figure>
+                <img src="assets/proof/secure-intake-form.png" alt="Secure intake form with temporary password and one-time code fields">
+                <figcaption>One-use form for values that should not go into chat, tickets, logs, or memory.</figcaption>
+              </figure>
+              <figure>
+                <img src="assets/proof/secure-intake-submitted.png" alt="Secure intake submitted confirmation">
+                <figcaption>Submitted state: the broker encrypts values and returns field references to the agent.</figcaption>
+              </figure>
+            </div>
             <div class="project-actions">
               <a href="https://github.com/autonomouscereal/agent-credential-broker" target="_blank" rel="noreferrer">Credential broker</a>
               <a href="https://github.com/autonomouscereal/agent-memory-blueprint" target="_blank" rel="noreferrer">Memory blueprint</a>
